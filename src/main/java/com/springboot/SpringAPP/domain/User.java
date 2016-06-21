@@ -1,8 +1,18 @@
 package com.springboot.SpringAPP.domain;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+@Entity
 public class User {
+	@Id
+	@GeneratedValue
+	private int id;
+	
 	private String username;
-	private String uuid;
+	
+	private String usercode;
 	
 	public String getUsername() {
 		return username;
@@ -10,12 +20,17 @@ public class User {
 	public void setUsername(String username) {
 		this.username = username;
 	}
-	public String getUuid() {
-		return uuid;
+	public String getUsercode() {
+		return usercode;
 	}
-	public void setUuid(String uuid) {
-		this.uuid = uuid;
+	public void setUsercode(String uuid) {
+		this.usercode = uuid;
 	}
 	
-	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
 }
