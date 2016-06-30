@@ -21,5 +21,11 @@ public class UserDao {
 		RowMapper<User> rowMapper = new BeanPropertyRowMapper<User>(User.class); 
 		
 		return jdbcTemplate.queryForObject(sql, rowMapper, id);
-	};
+	}
+	
+	public void save(User user){
+		String sql = "insert into User (username,usercode) values(?,?)";
+		
+		jdbcTemplate.update(sql,user.getUsername(),user.getUsercode());
+	}
 }

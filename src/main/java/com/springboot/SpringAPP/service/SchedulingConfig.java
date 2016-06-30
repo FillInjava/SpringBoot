@@ -8,7 +8,7 @@ import org.springframework.scheduling.annotation.Scheduled;
  * 定时任务
  * @author liuguo
  *
- */
+ 
 @Configuration
 @EnableScheduling
 public class SchedulingConfig {
@@ -18,3 +18,4 @@ public class SchedulingConfig {
 		System.out.println("定时任务》.....");
 	}
 }
+*/

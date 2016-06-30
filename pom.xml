@@ -21,13 +21,31 @@
           <plugin>
               <groupId>org.apache.maven.plugins</groupId>
               <artifactId>maven-compiler-plugin</artifactId>
-              <version>2.5.1</version>
               <configuration>
                   <source>${jdk.version}</source>
                   <target>${jdk.version}</target>
                   <showWarnings>true</showWarnings>
               </configuration>
           </plugin>
+          <plugin>
+	        <groupId>org.apache.maven.plugins</groupId>
+	        <artifactId>maven-shade-plugin</artifactId>
+	        <executions>
+	            <execution>
+	                <phase>package</phase>
+	                <goals>
+	                    <goal>shade</goal>
+	                </goals>
+	                    <configuration>
+	                        <transformers>
+	                            <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+	                                <mainClass>com.springboot.SpringAPP.App</mainClass>
+	                            </transformer>
+	                        </transformers>
+	                    </configuration>
+	            </execution>
+	        </executions>
+	     </plugin>
       </plugins>
   </build>
   <parent>
@@ -39,7 +57,6 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.10</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -66,7 +83,6 @@
 	<dependency>
 	 <groupId>org.springframework.data</groupId>
 	 <artifactId>spring-data-jpa</artifactId>
-	 <version>1.10.2.RELEASE</version>
 	</dependency>
 	<!-- FASTJSON -->  
 	<dependency>

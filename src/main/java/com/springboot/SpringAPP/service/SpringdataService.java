@@ -5,22 +5,16 @@ import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
 
-import com.springboot.SpringAPP.dao.UserDao;
+import com.springboot.SpringAPP.dao.UserRepository;
 import com.springboot.SpringAPP.domain.User;
 
 @Service
-public class UserService {
-	
+public class SpringdataService {
 	@Resource
-	private UserDao userDao;
+	private UserRepository userRepository;
 	
 	@Transactional
 	public void save(User user){
-		userDao.save(user);
+		userRepository.save(user);
 	}
-	
-	public User getById(int id){
-		//等价于userRepository.findOne(id);
-		return userDao.getById(id);
-	};
 }

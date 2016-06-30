@@ -2,19 +2,24 @@ package com.springboot.SpringAPP.web;
 
 import javax.annotation.Resource;
 
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
 import com.springboot.SpringAPP.domain.User;
+import com.springboot.SpringAPP.service.SpringdataService;
 import com.springboot.SpringAPP.service.UserService;
 
 @RestController
+@EnableAutoConfiguration
 @RequestMapping("/user")
 public class UserController {
 	
 	@Resource
 	private UserService userService;
+	@Resource
+	private SpringdataService springdataService;
 	
 	@RequestMapping("/getUser")
 	public User getUser(){	
@@ -40,12 +45,9 @@ public class UserController {
 	}
 	
 	@RequestMapping("/save")
-	public String save(){
-		User user = new User();
-		user.setUsername("lg");
-		user.setUsercode("lgg");
+	public String save(User user){
 		userService.save(user);
-		
+		//springdataService.save(user);
 		return "success";
 	}
 	
