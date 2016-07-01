@@ -2,7 +2,6 @@ package com.springboot.SpringAPP.web;
 
 import javax.annotation.Resource;
 
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -12,7 +11,6 @@ import com.springboot.SpringAPP.service.SpringdataService;
 import com.springboot.SpringAPP.service.UserService;
 
 @RestController
-@EnableAutoConfiguration
 @RequestMapping("/user")
 public class UserController {
 	

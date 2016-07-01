@@ -1,0 +1,75 @@
+package com.springboot.SpringAPP.web;
+
+import java.util.Collection;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import com.springboot.SpringAPP.dao.AccountRepository;
+import com.springboot.SpringAPP.dao.BookmarkRepository;
+import com.springboot.SpringAPP.domain.BookMark;
+import com.springboot.SpringAPP.exceptions.UserNotFoundException;
+
+@RestController
+@RequestMapping(value="/{userId}/bookmarks")
+public class BookmarkRestController {
+	
+	private final AccountRepository accountRepository;
+	
+	private final BookmarkRepository bookmarkRepository;
+	
+	@Autowired
+	BookmarkRestController(BookmarkRepository bookmarkRepository,
+			AccountRepository accountRepository) {
+		this.accountRepository = accountRepository;
+		this.bookmarkRepository = bookmarkRepository;
+	}
+	
+	public void validateUser(String userId){
+		this.accountRepository.findByUsername(userId).orElseThrow(
+				() -> new UserNotFoundException(userId));
+	}
+	
+	@RequestMapping(method = RequestMethod.POST)
+	ResponseEntity<?> add(@PathVariable String userId,@RequestBody BookMark input){
+		this.validateUser(userId);
+		
+		return this.accountRepository.findByUsername(userId).map(
+				account -> {
+					BookMark result = this.bookmarkRepository.save(new BookMark(account,
+							input.getUri(), input.getDescription()));
+					
+					HttpHeaders httpHeaders = new HttpHeaders();
+					
+					httpHeaders.setLocation(ServletUriComponentsBuilder
+							.fromCurrentRequest().path("/{id}")
+							.buildAndExpand(result.getId()).toUri());
+					
+					return new ResponseEntity<>(null,httpHeaders,HttpStatus.CREATED);
+				}).get();
+	}
+	
+	@RequestMapping(value = "/{bookmarkId}",method = RequestMethod.GET)
+	public BookMark readBookMark(@PathVariable String userId, 
+			@PathVariable Long bookmarkId){
+		
+		this.validateUser(userId);
+		return this.bookmarkRepository.findOne(bookmarkId);
+	}
+	@RequestMapping(method = RequestMethod.GET)
+	Collection<BookMark> readBookmarks(@PathVariable String userId){
+		
+		this.validateUser(userId);
+		return this.bookmarkRepository.findByAccountUsername(userId);
+	}
+	
+	
+}
